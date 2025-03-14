@@ -82,7 +82,7 @@ military <- read_xlsx("data/gov_spending_per_capita.xlsx",  #selects data file
                       sheet = "Share of Govt. spending",    #selects specific sheet
                       skip  = 7,                            #skips first 7 rows
                       n_max = 191,                          #sets max number of observations
-                      na = c("xxx", ".."))                  #sets NA values
+                      na = c("xxx", ". ."))                  #sets NA values
 ```
 
 *I would highly recommend you open the dataset in Excel, so you can see the data layout!*
@@ -143,8 +143,8 @@ military_clean <- military |>
 #| label: inspecting-what-regions-were-not-removed
 
 military_clean |> 
-  filter(if_all(.cols = _________,   #hint: what is the easiest way to include every column except `Country`
-                .fns = __________)   #hint: what function in R (there are several) tests if a value is missing or is NA?
+  filter(if_all(.cols = 2:35,   #hint: what is the easiest way to include every column except `Country`
+                .fns = is.na )   #hint: what function in R (there are several) tests if a value is missing or is NA?
          )
 ```
 
@@ -179,7 +179,9 @@ Hint: **Do not** overwrite your cleaned up dataset!
 
 ```{r}
 #| label: pivoting-military-data-longer
-
+military_longer <- military_clean |>
+  pivot_longer(cols = 4:35, names_to = "year", values_to = "spending")
+military_longer
 
 ```
 
